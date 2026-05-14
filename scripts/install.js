@@ -9,10 +9,14 @@ function run(command, args) {
 
 console.log('Installing ChromeWire MCP dependencies...');
 run('npm', ['install']);
+console.log('Installing or verifying Codex Chrome native host manifest...');
+run('node', ['scripts/install-codex-native-host.js']);
 console.log('Running tests...');
 run('npm', ['test']);
 console.log('Running syntax checks...');
 run('npm', ['run', 'check']);
 console.log('Running environment doctor...');
 run('npm', ['run', 'doctor']);
-console.log('ChromeWire MCP install checks completed. Start with: npm start');
+console.log('ChromeWire MCP install checks completed.');
+console.log('For Codex CLI and other stdio MCP clients, configure: node src/stdio.js');
+console.log('For HTTP MCP clients, start with: npm start, then use http://127.0.0.1:8962/mcp');

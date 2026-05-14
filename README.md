@@ -91,7 +91,7 @@ flowchart TD
     Browser[Browser profile] --> Ext[Official Codex Chrome Extension]
     Ext --> Native[Local native host / browser pipe]
     Native --> Bridge[ChromeWire MCP bridge]
-    Bridge --> MCP[Local MCP HTTP endpoint]
+    Bridge --> MCP[Local MCP stdio or HTTP endpoint]
     MCP --> GSD[GSD / Pi]
     MCP --> Codex[Codex CLI]
     MCP --> Claude[Claude Code]
@@ -102,11 +102,23 @@ flowchart TD
 
 | Platform | Status | Notes |
 |---|---:|---|
-| Windows | Supported | Uses local `codex-browser-use*` named pipes exposed by the official extension/native host. |
-| macOS | Planned | Adapter needs validation against the official extension native-host transport on macOS. |
-| Linux / Ubuntu | Planned | Adapter needs validation against the official extension native-host transport on Linux. |
+| Windows | Supported | Uses local `codex-browser-use*` named pipes exposed by the official extension/native host. Installer writes the manifest and registers the required `HKCU\Software\Google\Chrome\NativeMessagingHosts\...` key when the bundled Codex native host is found. |
+| macOS | Supported with Codex-launched stdio | Installs/checks the Codex Chrome native-host manifest and discovers local `/tmp/codex-browser-use/*.sock` sockets. Use the stdio MCP entrypoint launched by Codex so the browser socket peer authorization accepts the process. |
+| Linux / Ubuntu | Supported when the official Codex native host is present | Uses Unix domain sockets from `/tmp/codex-browser-use` or `CODEX_CHROME_SOCKET_DIR`. Installer checks standard Codex resource paths and supports `CODEX_CHROME_NATIVE_HOST_PATH` / `CODEX_APP_RESOURCES_PATH` overrides. |
 
-The package includes cross-platform configuration paths, but the browser transport implemented today is the Windows named-pipe adapter.
+The package includes cross-platform configuration paths. Windows uses named pipes; macOS and Linux use Unix domain sockets created by the Codex Chrome native host.
+
+On macOS, the Codex browser socket authorizes the connecting process by code signature and process ancestry. For Codex CLI, configure ChromeWire as a stdio MCP server so Codex itself launches it:
+
+```toml
+[mcp_servers.chromewire]
+command = "/Applications/Codex.app/Contents/Resources/node"
+args = ["/absolute/path/to/chromewire-mcp/src/stdio.js"]
+startup_timeout_sec = 20.0
+tool_timeout_sec = 180.0
+```
+
+Starting the macOS bridge from `launchd`, Homebrew Node.js, or another unsigned parent can leave the extension visible but unreachable with errors such as `pipe closed` or `Working instances: none`.
 
 ## 🛡 Security model
 
@@ -124,7 +136,7 @@ Read [`docs/SECURITY.md`](docs/SECURITY.md) before using this with real accounts
 - Google Chrome
 - Official Codex Chrome Extension installed and enabled: https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
 - A working native-host connection from the extension
-- Windows for the current working transport
+- Windows, macOS, or Linux/Ubuntu with the official Codex native host available
 
 ## 🛠 Manual install
 
@@ -132,10 +144,52 @@ Read [`docs/SECURITY.md`](docs/SECURITY.md) before using this with real accounts
 git clone https://github.com/bakhtiersizhaev/chromewire-mcp.git
 cd chromewire-mcp
 npm install
+npm run install:codex-native-host
 npm test
 npm run check
 npm run doctor
 npm run smoke
+```
+
+On macOS, `npm run smoke` may return a `macos_peer_authorization` diagnostic because npm changes the process ancestry. If your final MCP config uses Codex-launched stdio, run this direct live smoke from a Codex-launched shell:
+
+```bash
+/Applications/Codex.app/Contents/Resources/node scripts/smoke.js
+```
+
+### Stdio MCP mode
+
+Use stdio when your MCP client can launch local commands. This is the recommended Codex CLI mode and the required mode on macOS when Codex peer authorization is active.
+
+```bash
+npm run start:stdio
+```
+
+Codex CLI on macOS:
+
+```toml
+[mcp_servers.chromewire]
+command = "/Applications/Codex.app/Contents/Resources/node"
+args = ["/absolute/path/to/chromewire-mcp/src/stdio.js"]
+startup_timeout_sec = 20.0
+tool_timeout_sec = 180.0
+```
+
+Codex CLI on Windows/Linux:
+
+```toml
+[mcp_servers.chromewire]
+command = "node"
+args = ["/absolute/path/to/chromewire-mcp/src/stdio.js"]
+startup_timeout_sec = 20.0
+tool_timeout_sec = 180.0
+```
+
+### HTTP MCP mode
+
+Use HTTP when your MCP client supports Streamable HTTP MCP and you want to keep the bridge running separately.
+
+```bash
 npm start
 ```
 

@@ -20,10 +20,15 @@ npm install
 npm test
 npm run check
 npm run smoke
-npm start
 ```
 
-MCP endpoint:
+Stdio MCP for clients that launch local MCP subprocesses:
+
+```text
+node src/stdio.js
+```
+
+HTTP MCP endpoint when the bridge is started separately with `npm start`:
 
 ```text
 http://127.0.0.1:8962/mcp
@@ -41,7 +46,7 @@ Chrome profiles 会自动检测。用户本地偏好保存在仓库外：
 
 ## 平台状态
 
-当前 Windows 可用。macOS 和 Linux 已规划，但需要验证官方扩展 native-host 的传输方式。
+Windows uses named pipes and the Chrome native messaging registry key. macOS and Linux/Ubuntu use Unix sockets from the official Codex native host. On macOS with Codex CLI, use stdio with `/Applications/Codex.app/Contents/Resources/node src/stdio.js` so Codex owns the MCP subprocess.
 
 
 ## Official extension link

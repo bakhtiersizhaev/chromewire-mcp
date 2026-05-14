@@ -13,6 +13,7 @@ const textFiles = [
   'src/config.js',
   'src/codexChromePipe.js',
   'src/server.js',
+  'src/stdio.js',
 ].map((file) => path.join(root, file));
 
 function read(file) {
@@ -39,8 +40,9 @@ test('public files do not contain personal profile data or machine-local paths',
 
 test('profile preference is treated as local state, not source code', () => {
   const gitignore = read(path.join(root, '.gitignore'));
-  assert.equal(gitignore.split(nl).includes('profile-preference.json'), true);
-  assert.equal(gitignore.split(nl).includes('.codex-chrome-mcp/'), true);
+  const lines = gitignore.split(/\r?\n/);
+  assert.equal(lines.includes('profile-preference.json'), true);
+  assert.equal(lines.includes('.codex-chrome-mcp/'), true);
 });
 
 test('package metadata is publishable and uses registry dependencies', () => {
@@ -49,16 +51,20 @@ test('package metadata is publishable and uses registry dependencies', () => {
   assert.equal(pkg.license, 'Apache-2.0');
   assert.equal(pkg.name, 'chromewire-mcp');
   assert.ok(pkg.bin?.['chromewire-mcp']);
+  assert.ok(pkg.bin?.['chromewire-mcp-stdio']);
   assert.ok(pkg.bin?.['codex-chrome-mcp-bridge']);
+  assert.ok(pkg.bin?.['codex-chrome-mcp-stdio']);
   assert.ok(pkg.scripts.doctor);
   assert.ok(pkg.scripts['install:agent']);
+  assert.ok(pkg.scripts['install:codex-native-host']);
+  assert.ok(pkg.scripts['start:stdio']);
   assert.equal(pkg.dependencies['@modelcontextprotocol/sdk'].startsWith('file:'), false);
   assert.ok(pkg.dependencies['classic-level']);
   assert.ok(pkg.scripts.test);
 });
 
 test('release documentation and attribution files exist', () => {
-  for (const file of ['LICENSE', 'NOTICE', 'docs/SECURITY.md', 'docs/ARCHITECTURE.md', 'docs/README.ru.md', 'docs/README.zh.md', 'docs/DESCRIPTIONS.md', 'docs/TROUBLESHOOTING.md', 'examples/gsd.mcp.json', 'examples/claude-code.mcp.json', 'examples/cursor.mcp.json', 'examples/windsurf.mcp.json', 'examples/codex-cli.md', 'docs/index.html', 'scripts/doctor.js', 'scripts/install.js', '.github/workflows/ci.yml']) {
+  for (const file of ['LICENSE', 'NOTICE', 'docs/SECURITY.md', 'docs/ARCHITECTURE.md', 'docs/README.ru.md', 'docs/README.zh.md', 'docs/DESCRIPTIONS.md', 'docs/TROUBLESHOOTING.md', 'examples/gsd.mcp.json', 'examples/claude-code.mcp.json', 'examples/cursor.mcp.json', 'examples/windsurf.mcp.json', 'examples/codex-cli.md', 'docs/index.html', 'scripts/doctor.js', 'scripts/install.js', 'scripts/install-codex-native-host.js', 'src/nativeHostManifest.js', 'src/stdio.js', '.github/workflows/ci.yml']) {
     assert.equal(fs.existsSync(path.join(root, file)), true, `${file} should exist`);
   }
 });
