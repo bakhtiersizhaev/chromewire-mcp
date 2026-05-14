@@ -88,3 +88,26 @@ test('README and Pages lead with AI-agent install prompts in three languages', (
     assert.equal(body.includes('skills/install-codex-chrome-mcp/SKILL.md'), true, `${file} should point agents to install skill`);
   }
 });
+
+
+test('README and Pages are polished for GitHub discovery', () => {
+  const readme = read(path.join(root, 'README.md'));
+  const landing = read(path.join(root, 'docs/index.html'));
+  assert.equal(readme.includes('![MCP Server]'), true, 'README should include visual badges');
+  assert.equal(readme.includes('## 🏷 Repository category and tags'), true, 'README should include category/tags');
+  assert.equal(readme.includes('developer tools · AI browser automation · MCP server · local-first automation'), true);
+  assert.equal(landing.includes('Category and tags'), true, 'Pages should include category/tags');
+  assert.equal(landing.includes('tag-cloud'), true, 'Pages should include styled tag cloud');
+});
+
+test('agent install prompts avoid over-specific browser wording while requirements stay explicit', () => {
+  const readme = read(path.join(root, 'README.md'));
+  const promptBlock = readme.slice(readme.indexOf('## 🚀 Easy install via your AI agent'), readme.indexOf('## ✨ Why this exists'));
+  assert.equal(promptBlock.includes('Google Chrome'), false, 'README copy/paste prompts should not mention Google Chrome');
+  assert.equal(promptBlock.includes('required local prerequisites'), true);
+  assert.equal(readme.includes('- Google Chrome'), true, 'Requirements should still name the real dependency');
+
+  const landing = read(path.join(root, 'docs/index.html'));
+  const landingPromptBlock = landing.slice(landing.indexOf('Easy install via your AI agent'), landing.indexOf('🧭 How it works'));
+  assert.equal(landingPromptBlock.includes('Google Chrome'), false, 'Pages copy/paste prompts should not mention Google Chrome');
+});
