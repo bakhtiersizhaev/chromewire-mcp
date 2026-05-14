@@ -46,6 +46,10 @@
     pre { overflow:auto; border:2px solid var(--line); padding:18px; background:var(--panel); }
     section { padding:46px 0; border-bottom:2px solid var(--line); }
     .grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; }
+    .prompt-grid { display:grid; grid-template-columns:1fr; gap:18px; }
+    .prompt-card { border:2px solid var(--line); background:var(--panel); padding:18px; }
+    .prompt-card h3 { margin:0 0 12px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-transform:uppercase; font-size:14px; }
+    .prompt-card pre { max-height:260px; white-space:pre-wrap; }
     .tile { border:2px solid var(--line); padding:18px; background:var(--panel); min-height:170px; }
     .tile strong { display:block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-transform:uppercase; margin-bottom:10px; }
     .diagram { font-size: clamp(15px, 1.8vw, 20px); line-height:1.7; white-space:pre-wrap; }
@@ -78,6 +82,35 @@ npm run doctor
 npm start</pre>
           <p>Endpoint: <code>http://127.0.0.1:8962/mcp</code></p>
         </aside>
+      </section>
+
+
+      <section>
+        <h2>Easy install via your AI agent</h2>
+        <p>Copy one prompt into your coding agent. It should inspect the repo, follow <code>skills/install-codex-chrome-mcp/SKILL.md</code>, configure your MCP client, and verify the setup.</p>
+        <div class="prompt-grid">
+          <article class="prompt-card">
+            <h3>English</h3>
+            <pre>Look into this repository: https://github.com/bakhtiersizhaev/chromewire-mcp
+Install ChromeWire MCP in my local AI CLI / agentic MCP setup. Add it as an MCP server for the CLI I am using. Follow the repository instructions and the agent install skill here: skills/install-codex-chrome-mcp/SKILL.md
+First verify Node.js 20+, Google Chrome, and the official Codex Chrome Extension: https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
+If the extension page is unavailable in my region, tell me that a USA IP via VPN/proxy may be required. Keep the MCP endpoint bound to 127.0.0.1. Run npm test, npm run check, npm run doctor, npm run smoke, then show me the final MCP config.</pre>
+          </article>
+          <article class="prompt-card">
+            <h3>Русский</h3>
+            <pre>Посмотри этот репозиторий: https://github.com/bakhtiersizhaev/chromewire-mcp
+Установи ChromeWire MCP в мой локальный AI CLI / agentic MCP setup. Добавь его как MCP server для CLI, которым я пользуюсь. Следуй инструкциям репозитория и agent install skill: skills/install-codex-chrome-mcp/SKILL.md
+Сначала проверь Node.js 20+, Google Chrome и официальный Codex Chrome Extension: https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
+Если страница расширения недоступна в моём регионе, скажи, что может понадобиться USA IP через VPN/proxy. MCP endpoint должен оставаться на 127.0.0.1. Запусти npm test, npm run check, npm run doctor, npm run smoke, потом покажи финальный MCP config.</pre>
+          </article>
+          <article class="prompt-card">
+            <h3>中文</h3>
+            <pre>请查看这个仓库：https://github.com/bakhtiersizhaev/chromewire-mcp
+请把 ChromeWire MCP 安装到我的本地 AI CLI / agentic MCP 环境中，并把它添加为当前 CLI 使用的 MCP server。请按照仓库说明和这个 agent install skill 执行：skills/install-codex-chrome-mcp/SKILL.md
+先检查 Node.js 20+、Google Chrome，以及官方 Codex Chrome Extension：https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
+如果该扩展页面在我的地区无法打开，请告诉我可能需要使用 USA IP / VPN / proxy。MCP endpoint 必须保持绑定到 127.0.0.1。请运行 npm test、npm run check、npm run doctor、npm run smoke，然后给我最终 MCP config。</pre>
+          </article>
+        </div>
       </section>
 
       <section>

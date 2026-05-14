@@ -4,6 +4,37 @@ ChromeWire MCP connects the official Codex Chrome Extension to MCP-compatible AI
 
 > Independent project. Not affiliated with OpenAI, Google, Chrome, or the official Codex Chrome Extension team.
 
+## Easy install via your AI agent
+
+Copy one of these prompts into your AI coding agent / CLI assistant. The agent should inspect this repository and follow the bundled install skill at [`skills/install-codex-chrome-mcp/SKILL.md`](skills/install-codex-chrome-mcp/SKILL.md).
+
+### English prompt
+
+```text
+Look into this repository: https://github.com/bakhtiersizhaev/chromewire-mcp
+Install ChromeWire MCP in my local AI CLI / agentic MCP setup. Add it as an MCP server for the CLI I am using. Follow the repository instructions and the agent install skill here: skills/install-codex-chrome-mcp/SKILL.md
+First verify Node.js 20+, Google Chrome, and the official Codex Chrome Extension: https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
+If the extension page is unavailable in my region, tell me that a USA IP via VPN/proxy may be required. Keep the MCP endpoint bound to 127.0.0.1. Run npm test, npm run check, npm run doctor, npm run smoke, then show me the final MCP config.
+```
+
+### Русский промпт
+
+```text
+Посмотри этот репозиторий: https://github.com/bakhtiersizhaev/chromewire-mcp
+Установи ChromeWire MCP в мой локальный AI CLI / agentic MCP setup. Добавь его как MCP server для CLI, которым я пользуюсь. Следуй инструкциям репозитория и agent install skill: skills/install-codex-chrome-mcp/SKILL.md
+Сначала проверь Node.js 20+, Google Chrome и официальный Codex Chrome Extension: https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
+Если страница расширения недоступна в моём регионе, скажи, что может понадобиться USA IP через VPN/proxy. MCP endpoint должен оставаться на 127.0.0.1. Запусти npm test, npm run check, npm run doctor, npm run smoke, потом покажи финальный MCP config.
+```
+
+### 中文提示词
+
+```text
+请查看这个仓库：https://github.com/bakhtiersizhaev/chromewire-mcp
+请把 ChromeWire MCP 安装到我的本地 AI CLI / agentic MCP 环境中，并把它添加为当前 CLI 使用的 MCP server。请按照仓库说明和这个 agent install skill 执行：skills/install-codex-chrome-mcp/SKILL.md
+先检查 Node.js 20+、Google Chrome，以及官方 Codex Chrome Extension：https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
+如果该扩展页面在我的地区无法打开，请告诉我可能需要使用 USA IP / VPN / proxy。MCP endpoint 必须保持绑定到 127.0.0.1。请运行 npm test、npm run check、npm run doctor、npm run smoke，然后给我最终 MCP config。
+```
+
 
 ## Official Codex Chrome Extension
 

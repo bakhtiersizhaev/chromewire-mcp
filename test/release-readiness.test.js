@@ -76,3 +76,15 @@ test('docs promote the official extension link, region caveat, and search discov
   assert.equal(landing.includes('Claude Code Chrome MCP'), true);
   assert.equal(landing.includes('Cursor MCP Chrome'), true);
 });
+
+
+test('README and Pages lead with AI-agent install prompts in three languages', () => {
+  for (const file of ['README.md', 'docs/index.html']) {
+    const body = read(path.join(root, file));
+    assert.equal(body.includes('Easy install via your AI agent'), true, `${file} should lead with agent install`);
+    assert.equal(body.includes('Look into this repository: https://github.com/bakhtiersizhaev/chromewire-mcp'), true, `${file} should include English agent prompt`);
+    assert.equal(body.includes('Посмотри этот репозиторий: https://github.com/bakhtiersizhaev/chromewire-mcp'), true, `${file} should include Russian agent prompt`);
+    assert.equal(body.includes('请查看这个仓库：https://github.com/bakhtiersizhaev/chromewire-mcp'), true, `${file} should include Chinese agent prompt`);
+    assert.equal(body.includes('skills/install-codex-chrome-mcp/SKILL.md'), true, `${file} should point agents to install skill`);
+  }
+});
