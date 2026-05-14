@@ -26,7 +26,7 @@ If the Chrome Web Store listing is unavailable in the user's region, tell them t
 5. Run `npm run install:codex-native-host` when the local Codex app is installed and the native host manifest is missing.
 6. Run `npm test` and `npm run check`.
 7. Run `npm run doctor`.
-8. Start the bridge with `npm start` or `npx chromewire-mcp` after npm publication.
+8. Start the bridge with `npm start` or `npx chromewire-mcp` after npm publication. On macOS, prefer `/Applications/Codex.app/Contents/Resources/node src/server.js` from a Codex-launched shell so the Codex browser socket accepts the peer.
 9. Configure the MCP client with `http://127.0.0.1:8962/mcp`.
 10. Run `npm run smoke`.
 11. Use `codex_chrome_health` to verify the extension pipe is reachable.

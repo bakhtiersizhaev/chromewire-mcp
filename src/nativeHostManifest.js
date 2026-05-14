@@ -106,6 +106,19 @@ export function checkNativeHostManifest({
   }
 }
 
+export function checkMacosCodexRuntime({ execPath = process.execPath, platform = process.platform } = {}) {
+  if (platform !== 'darwin') return { ok: true, required: false, execPath };
+  const expectedSuffix = path.join('Codex.app', 'Contents', 'Resources', 'node');
+  const ok = execPath.endsWith(expectedSuffix);
+  return {
+    ok,
+    required: true,
+    execPath,
+    expected: `/Applications/${expectedSuffix}`,
+    problem: ok ? null : 'macOS Codex browser sockets require running ChromeWire with the Node.js binary bundled in Codex.app and launched from a Codex-owned process.',
+  };
+}
+
 export async function installCodexNativeHostManifest({
   manifestPath = process.env.CODEX_CHROME_NATIVE_HOST_MANIFEST_PATH || getDefaultNativeHostManifestPath(),
   hostPath = process.env.CODEX_CHROME_NATIVE_HOST_PATH || getCodexAppNativeHostPath(),

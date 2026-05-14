@@ -14,6 +14,7 @@ import {
 import { listPipes, listUnixSockets } from '../src/codexChromePipe.js';
 import {
   buildNativeHostManifest,
+  checkMacosCodexRuntime,
   checkNativeHostManifest,
   getCodexAppNativeHostPath,
   getDefaultNativeHostManifestPath,
@@ -108,4 +109,19 @@ test('resolves bundled Codex native host path for supported platforms', () => {
     path.join('/Applications/Codex.app', 'Contents', 'Resources', 'plugins', 'openai-bundled', 'plugins', 'chrome', 'extension-host', 'macos', 'arm64', 'extension-host'),
   );
   assert.equal(getCodexAppNativeHostPath({ platform: 'darwin', arch: 'ppc' }), null);
+});
+
+test('detects whether macOS is using Codex bundled Node.js', () => {
+  assert.equal(
+    checkMacosCodexRuntime({ platform: 'darwin', execPath: '/Applications/Codex.app/Contents/Resources/node' }).ok,
+    true,
+  );
+  assert.equal(
+    checkMacosCodexRuntime({ platform: 'darwin', execPath: '/opt/homebrew/bin/node' }).ok,
+    false,
+  );
+  assert.equal(
+    checkMacosCodexRuntime({ platform: 'linux', execPath: '/usr/bin/node' }).required,
+    false,
+  );
 });

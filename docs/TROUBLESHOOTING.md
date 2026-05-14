@@ -34,6 +34,15 @@ The installer uses the native host bundled with the local Codex app and keeps th
 
 If `npm run doctor` reports local sockets but `npm run smoke` fails with `pipe closed`, the Codex app may be rejecting the direct socket peer. In that case the native host is installed and socket discovery works, but ChromeWire still needs a compatible Codex-side peer path for full browser control.
 
+On macOS, run the bridge from a Codex-launched shell with Codex's bundled Node.js:
+
+```bash
+cd chromewire-mcp
+/Applications/Codex.app/Contents/Resources/node src/server.js
+```
+
+Do not run the macOS bridge from `launchd` or Homebrew Node.js when you need extension access. The Codex socket authorizes the connecting peer by code signature and parent process ancestry.
+
 Then run:
 
 ```bash
