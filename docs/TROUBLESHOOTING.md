@@ -18,6 +18,22 @@ http://127.0.0.1:8962/mcp
 
 Check that Chrome is running, the official Codex Chrome Extension is installed and enabled, the target profile is open, and the native host is working.
 
+On macOS, the Codex Chrome native host must also be registered in:
+
+```text
+~/Library/Application Support/Google/Chrome/NativeMessagingHosts/com.openai.codexextension.json
+```
+
+If `npm run doctor` reports that the native host manifest is missing, run:
+
+```bash
+npm run install:codex-native-host
+```
+
+The installer uses the native host bundled with the local Codex app and keeps the browser bridge on localhost.
+
+If `npm run doctor` reports local sockets but `npm run smoke` fails with `pipe closed`, the Codex app may be rejecting the direct socket peer. In that case the native host is installed and socket discovery works, but ChromeWire still needs a compatible Codex-side peer path for full browser control.
+
 Then run:
 
 ```bash

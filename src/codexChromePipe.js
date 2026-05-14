@@ -8,6 +8,7 @@ import { EXPECTED_EXTENSION_ID, getClassicLevelModuleSpecifier, getDefaultPrefer
 
 const PREFIX = 'codex-browser-use';
 const TIMEOUT = 2500;
+const DEFAULT_UNIX_SOCKET_DIR = process.platform === 'darwin' ? path.join('/tmp', PREFIX) : path.join(os.tmpdir(), PREFIX);
 const USER_DATA_DIR = getDefaultUserDataDir();
 const PREFERENCE_PATH = getDefaultPreferencePath();
 const DEFAULT_PROFILE_SELECTOR = process.env.CODEX_CHROME_DEFAULT_PROFILE || 'Default';
@@ -19,8 +20,32 @@ function pipeRoot() {
 }
 
 export function listPipes() {
+  if (process.platform !== 'win32') return listUnixSockets();
   const r = pipeRoot();
-  return fs.readdirSync(r).filter((n) => n.startsWith(PREFIX)).map((n) => ({ name: n, path: r + n }));
+  try {
+    return fs.readdirSync(r).filter((n) => n.startsWith(PREFIX)).map((n) => ({ name: n, path: r + n }));
+  } catch (error) {
+    if (error?.code === 'ENOENT') return [];
+    throw error;
+  }
+}
+
+export function listUnixSockets({ socketDir = process.env.CODEX_CHROME_SOCKET_DIR || DEFAULT_UNIX_SOCKET_DIR } = {}) {
+  try {
+    return fs.readdirSync(socketDir)
+      .filter((name) => name.endsWith('.sock'))
+      .map((name) => ({ name, path: path.join(socketDir, name) }))
+      .filter((socket) => {
+        try {
+          return fs.statSync(socket.path).isSocket();
+        } catch {
+          return false;
+        }
+      });
+  } catch (error) {
+    if (error?.code === 'ENOENT') return [];
+    throw error;
+  }
 }
 
 function frame(obj) {
@@ -293,7 +318,16 @@ export async function health() {
     const work = await findPipe(1200);
     return { ok: true, pipeCount: pipes.length, workingPipe: work.pipe.name, preferredProfile: preferred.selected, info: work.probe.info, samplePipes: pipes.slice(0, 20).map((p) => p.name) };
   } catch (e) {
-    return { ok: false, pipeCount: pipes.length, preferredProfile: preferred.selected, error: summarizeError(e), samplePipes: pipes.slice(0, 20).map((p) => p.name) };
+    const failures = [];
+    for (const pipe of pipes.slice(0, 6)) failures.push(await probe(pipe, 600));
+    return {
+      ok: false,
+      pipeCount: pipes.length,
+      preferredProfile: preferred.selected,
+      error: summarizeError(e),
+      samplePipes: pipes.slice(0, 20).map((p) => p.name),
+      sampleFailures: failures.map((failure) => ({ pipe: failure.pipe?.name, error: failure.error || (failure.ok ? null : 'wrong extension') })),
+    };
   }
 }
 

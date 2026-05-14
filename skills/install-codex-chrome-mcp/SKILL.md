@@ -23,13 +23,14 @@ If the Chrome Web Store listing is unavailable in the user's region, tell them t
 2. Verify Google Chrome is installed.
 3. Verify or ask the user to install the official Codex Chrome Extension from the link above.
 4. Run `npm install`.
-5. Run `npm test` and `npm run check`.
-6. Run `npm run doctor`.
-7. Start the bridge with `npm start` or `npx chromewire-mcp` after npm publication.
-8. Configure the MCP client with `http://127.0.0.1:8962/mcp`.
-9. Run `npm run smoke`.
-10. Use `codex_chrome_health` to verify the extension pipe is reachable.
-11. If multiple Chrome profiles exist, use `codex_chrome_list_profiles` and `codex_chrome_set_profile`.
+5. Run `npm run install:codex-native-host` when the local Codex app is installed and the native host manifest is missing.
+6. Run `npm test` and `npm run check`.
+7. Run `npm run doctor`.
+8. Start the bridge with `npm start` or `npx chromewire-mcp` after npm publication.
+9. Configure the MCP client with `http://127.0.0.1:8962/mcp`.
+10. Run `npm run smoke`.
+11. Use `codex_chrome_health` to verify the extension pipe is reachable.
+12. If multiple Chrome profiles exist, use `codex_chrome_list_profiles` and `codex_chrome_set_profile`.
 
 ## MCP config
 

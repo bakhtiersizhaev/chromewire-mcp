@@ -103,10 +103,10 @@ flowchart TD
 | Platform | Status | Notes |
 |---|---:|---|
 | Windows | Supported | Uses local `codex-browser-use*` named pipes exposed by the official extension/native host. |
-| macOS | Planned | Adapter needs validation against the official extension native-host transport on macOS. |
+| macOS | Partial | Installs/checks the Codex Chrome native-host manifest and discovers local `/tmp/codex-browser-use/*.sock` sockets. Direct socket access may still be rejected by Codex peer authorization. |
 | Linux / Ubuntu | Planned | Adapter needs validation against the official extension native-host transport on Linux. |
 
-The package includes cross-platform configuration paths, but the browser transport implemented today is the Windows named-pipe adapter.
+The package includes cross-platform configuration paths. Windows uses named pipes; macOS discovery uses the Unix domain sockets created by the Codex Chrome native host.
 
 ## 🛡 Security model
 
@@ -124,7 +124,8 @@ Read [`docs/SECURITY.md`](docs/SECURITY.md) before using this with real accounts
 - Google Chrome
 - Official Codex Chrome Extension installed and enabled: https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
 - A working native-host connection from the extension
-- Windows for the current working transport
+- Windows for the current fully working transport
+- macOS for native-host install checks and socket discovery; full bridge operation depends on Codex accepting the local peer connection
 
 ## 🛠 Manual install
 
@@ -132,6 +133,7 @@ Read [`docs/SECURITY.md`](docs/SECURITY.md) before using this with real accounts
 git clone https://github.com/bakhtiersizhaev/chromewire-mcp.git
 cd chromewire-mcp
 npm install
+npm run install:codex-native-host
 npm test
 npm run check
 npm run doctor

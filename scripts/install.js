@@ -9,6 +9,8 @@ function run(command, args) {
 
 console.log('Installing ChromeWire MCP dependencies...');
 run('npm', ['install']);
+console.log('Installing or verifying Codex Chrome native host manifest...');
+run('node', ['scripts/install-codex-native-host.js']);
 console.log('Running tests...');
 run('npm', ['test']);
 console.log('Running syntax checks...');

@@ -52,13 +52,14 @@ test('package metadata is publishable and uses registry dependencies', () => {
   assert.ok(pkg.bin?.['codex-chrome-mcp-bridge']);
   assert.ok(pkg.scripts.doctor);
   assert.ok(pkg.scripts['install:agent']);
+  assert.ok(pkg.scripts['install:codex-native-host']);
   assert.equal(pkg.dependencies['@modelcontextprotocol/sdk'].startsWith('file:'), false);
   assert.ok(pkg.dependencies['classic-level']);
   assert.ok(pkg.scripts.test);
 });
 
 test('release documentation and attribution files exist', () => {
-  for (const file of ['LICENSE', 'NOTICE', 'docs/SECURITY.md', 'docs/ARCHITECTURE.md', 'docs/README.ru.md', 'docs/README.zh.md', 'docs/DESCRIPTIONS.md', 'docs/TROUBLESHOOTING.md', 'examples/gsd.mcp.json', 'examples/claude-code.mcp.json', 'examples/cursor.mcp.json', 'examples/windsurf.mcp.json', 'examples/codex-cli.md', 'docs/index.html', 'scripts/doctor.js', 'scripts/install.js', '.github/workflows/ci.yml']) {
+  for (const file of ['LICENSE', 'NOTICE', 'docs/SECURITY.md', 'docs/ARCHITECTURE.md', 'docs/README.ru.md', 'docs/README.zh.md', 'docs/DESCRIPTIONS.md', 'docs/TROUBLESHOOTING.md', 'examples/gsd.mcp.json', 'examples/claude-code.mcp.json', 'examples/cursor.mcp.json', 'examples/windsurf.mcp.json', 'examples/codex-cli.md', 'docs/index.html', 'scripts/doctor.js', 'scripts/install.js', 'scripts/install-codex-native-host.js', 'src/nativeHostManifest.js', '.github/workflows/ci.yml']) {
     assert.equal(fs.existsSync(path.join(root, file)), true, `${file} should exist`);
   }
 });
