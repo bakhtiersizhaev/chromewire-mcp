@@ -1,0 +1,10 @@
+node_modules/
+npm-debug.log*
+.env
+.env.*
+profile-preference.json
+.codex-chrome-mcp/
+.DS_Store
+Thumbs.db
+coverage/
+*.log

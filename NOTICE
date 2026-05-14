@@ -1,0 +1,11 @@
+codex-chrome-mcp-bridge
+
+Original author: Bakhti
+Original repository: https://github.com/OWNER/codex-chrome-mcp-bridge
+
+This project provides an independent local MCP bridge for the official Codex Chrome Extension.
+
+Attribution requirement:
+Any fork, redistribution, package, modified version, or derivative work must preserve this NOTICE file and visibly credit the original project in the repository README or equivalent project documentation. Do not imply that the original author endorses forks or derivative distributions.
+
+This project is independent and is not affiliated with, endorsed by, or maintained by OpenAI, Google, Chrome, or the official Codex Chrome Extension team.
