@@ -51,6 +51,8 @@ test('uses package dependency for classic-level instead of a machine-local absol
 });
 
 test('discovers Codex browser-use unix sockets on macOS/Linux transports', async () => {
+  if (process.platform === 'win32') return;
+
   const socketDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'chromewire-sockets-'));
   const socketPath = path.join(socketDir, 'browser.sock');
   const server = net.createServer();
@@ -103,7 +105,7 @@ test('checks Codex Chrome native host manifest shape', async () => {
 test('resolves bundled Codex native host path for supported platforms', () => {
   assert.equal(
     getCodexAppNativeHostPath({ codexAppPath: '/Applications/Codex.app', platform: 'darwin', arch: 'arm64' }),
-    '/Applications/Codex.app/Contents/Resources/plugins/openai-bundled/plugins/chrome/extension-host/macos/arm64/extension-host',
+    path.join('/Applications/Codex.app', 'Contents', 'Resources', 'plugins', 'openai-bundled', 'plugins', 'chrome', 'extension-host', 'macos', 'arm64', 'extension-host'),
   );
   assert.equal(getCodexAppNativeHostPath({ platform: 'darwin', arch: 'ppc' }), null);
 });

@@ -25,7 +25,7 @@ export function listPipes() {
   try {
     return fs.readdirSync(r).filter((n) => n.startsWith(PREFIX)).map((n) => ({ name: n, path: r + n }));
   } catch (error) {
-    if (error?.code === 'ENOENT') return [];
+    if (error?.code === 'ENOENT' || error?.code === 'ENOTDIR') return [];
     throw error;
   }
 }

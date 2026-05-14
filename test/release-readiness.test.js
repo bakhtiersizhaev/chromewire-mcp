@@ -39,8 +39,9 @@ test('public files do not contain personal profile data or machine-local paths',
 
 test('profile preference is treated as local state, not source code', () => {
   const gitignore = read(path.join(root, '.gitignore'));
-  assert.equal(gitignore.split(nl).includes('profile-preference.json'), true);
-  assert.equal(gitignore.split(nl).includes('.codex-chrome-mcp/'), true);
+  const lines = gitignore.split(/\r?\n/);
+  assert.equal(lines.includes('profile-preference.json'), true);
+  assert.equal(lines.includes('.codex-chrome-mcp/'), true);
 });
 
 test('package metadata is publishable and uses registry dependencies', () => {
