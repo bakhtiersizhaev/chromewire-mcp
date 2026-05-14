@@ -58,7 +58,21 @@ test('package metadata is publishable and uses registry dependencies', () => {
 });
 
 test('release documentation and attribution files exist', () => {
-  for (const file of ['LICENSE', 'NOTICE', 'docs/SECURITY.md', 'docs/ARCHITECTURE.md', 'docs/README.ru.md', 'docs/README.zh.md', 'docs/DESCRIPTIONS.md', 'docs/TROUBLESHOOTING.md', 'examples/gsd.mcp.json', 'examples/claude-code.mcp.json', 'examples/cursor.mcp.json', 'examples/windsurf.mcp.json', 'examples/codex-cli.md', 'scripts/doctor.js', 'scripts/install.js', '.github/workflows/ci.yml']) {
+  for (const file of ['LICENSE', 'NOTICE', 'docs/SECURITY.md', 'docs/ARCHITECTURE.md', 'docs/README.ru.md', 'docs/README.zh.md', 'docs/DESCRIPTIONS.md', 'docs/TROUBLESHOOTING.md', 'examples/gsd.mcp.json', 'examples/claude-code.mcp.json', 'examples/cursor.mcp.json', 'examples/windsurf.mcp.json', 'examples/codex-cli.md', 'docs/index.html', 'scripts/doctor.js', 'scripts/install.js', '.github/workflows/ci.yml']) {
     assert.equal(fs.existsSync(path.join(root, file)), true, `${file} should exist`);
   }
+});
+
+
+test('docs promote the official extension link, region caveat, and search discovery terms', () => {
+  const requiredDocs = ['README.md', 'docs/index.html', 'skills/install-codex-chrome-mcp/SKILL.md', 'skills/debug-codex-chrome-mcp/SKILL.md'];
+  for (const file of requiredDocs) {
+    const body = read(path.join(root, file));
+    assert.equal(body.includes('https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg'), true, `${file} should link official extension`);
+    assert.equal(body.toLowerCase().includes('usa'), true, `${file} should mention USA IP/VPN/proxy caveat`);
+  }
+  const landing = read(path.join(root, 'docs/index.html'));
+  assert.equal(landing.includes('Codex Chrome Extension MCP'), true);
+  assert.equal(landing.includes('Claude Code Chrome MCP'), true);
+  assert.equal(landing.includes('Cursor MCP Chrome'), true);
 });

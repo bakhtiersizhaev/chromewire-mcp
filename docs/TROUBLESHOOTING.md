@@ -35,3 +35,10 @@ CODEX_CHROME_MCP_PORT=8970 npm start
 ```
 
 Update your MCP client config URL to match.
+
+
+## Official extension link
+
+https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
+
+If the Chrome Web Store page is unavailable in your region, a USA VPN/proxy or USA IP may be required to install the official extension. Use only lawful and policy-compliant access methods.

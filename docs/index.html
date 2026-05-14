@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ChromeWire MCP — Codex Chrome Extension Bridge for AI CLI Tools</title>
+  <meta name="description" content="ChromeWire MCP connects the official Codex Chrome Extension to MCP-compatible AI CLIs for safe localhost control of real Chrome tabs.">
+  <meta name="keywords" content="ChromeWire MCP, Codex Chrome Extension MCP, Chrome MCP server, real Chrome automation, AI CLI browser control, Claude Code Chrome MCP, Codex CLI Chrome, Cursor MCP Chrome, Windsurf MCP Chrome, GSD Pi MCP, browser-use MCP bridge">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <link rel="canonical" href="https://bakhtiersizhaev.github.io/chromewire-mcp/">
+  <meta property="og:title" content="ChromeWire MCP">
+  <meta property="og:description" content="A safe localhost MCP bridge from the official Codex Chrome Extension to AI CLI tools.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://bakhtiersizhaev.github.io/chromewire-mcp/">
+  <meta name="twitter:card" content="summary_large_image">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "ChromeWire MCP",
+    "description": "Local MCP bridge for the official Codex Chrome Extension, exposing safe real-Chrome controls to MCP-compatible AI CLIs.",
+    "codeRepository": "https://github.com/bakhtiersizhaev/chromewire-mcp",
+    "programmingLanguage": "JavaScript",
+    "runtimePlatform": "Node.js 20+",
+    "license": "https://www.apache.org/licenses/LICENSE-2.0"
+  }
+  </script>
+  <style>
+    :root { color-scheme: light dark; --bg:#f7f5ef; --fg:#0a0a0a; --muted:#68645c; --line:#0a0a0a; --panel:#fffdf7; --accent:#0a0a0a; }
+    @media (prefers-color-scheme: dark) { :root { --bg:#060606; --fg:#f5f1e8; --muted:#a9a39a; --line:#f5f1e8; --panel:#101010; --accent:#f5f1e8; } }
+    * { box-sizing: border-box; }
+    body { margin:0; background:var(--bg); color:var(--fg); font-family: ui-serif, Georgia, Cambria, "Times New Roman", serif; }
+    body:before { content:""; position:fixed; inset:0; pointer-events:none; opacity:.08; background-image:linear-gradient(var(--fg) 1px, transparent 1px), linear-gradient(90deg, var(--fg) 1px, transparent 1px); background-size:48px 48px; }
+    a { color:inherit; text-decoration-thickness: .08em; text-underline-offset: .18em; }
+    .wrap { max-width:1120px; margin:0 auto; padding:28px; }
+    header { display:flex; justify-content:space-between; gap:20px; align-items:flex-start; border-bottom:2px solid var(--line); padding-bottom:18px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-transform:uppercase; font-size:12px; letter-spacing:.08em; }
+    .hero { min-height:70vh; display:grid; grid-template-columns: 1.15fr .85fr; gap:38px; align-items:center; border-bottom:2px solid var(--line); padding:70px 0; }
+    h1 { font-size: clamp(58px, 11vw, 142px); line-height:.82; letter-spacing:-.075em; margin:0; max-width:820px; }
+    .dek { font-size: clamp(21px, 2.4vw, 34px); line-height:1.08; margin:26px 0 0; color:var(--muted); max-width:760px; }
+    .card { background:var(--panel); border:2px solid var(--line); padding:22px; box-shadow: 10px 10px 0 var(--line); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .card h2, section h2 { margin:0 0 14px; font-size:18px; letter-spacing:.04em; text-transform:uppercase; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .buttons { display:flex; flex-wrap:wrap; gap:12px; margin-top:28px; }
+    .btn { display:inline-block; border:2px solid var(--line); padding:12px 14px; background:var(--fg); color:var(--bg); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-decoration:none; font-weight:700; }
+    .btn.secondary { background:transparent; color:var(--fg); }
+    code, pre { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    pre { overflow:auto; border:2px solid var(--line); padding:18px; background:var(--panel); }
+    section { padding:46px 0; border-bottom:2px solid var(--line); }
+    .grid { display:grid; grid-template-columns: repeat(3, 1fr); gap:18px; }
+    .tile { border:2px solid var(--line); padding:18px; background:var(--panel); min-height:170px; }
+    .tile strong { display:block; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; text-transform:uppercase; margin-bottom:10px; }
+    .diagram { font-size: clamp(15px, 1.8vw, 20px); line-height:1.7; white-space:pre-wrap; }
+    .warn { border:2px solid var(--line); padding:18px; background:repeating-linear-gradient(-45deg, transparent, transparent 10px, color-mix(in srgb, var(--fg) 8%, transparent) 10px, color-mix(in srgb, var(--fg) 8%, transparent) 20px); }
+    footer { padding:34px 0; color:var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size:12px; }
+    @media (max-width: 820px) { .hero, .grid { grid-template-columns:1fr; } h1 { font-size:64px; } .wrap { padding:18px; } }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header><span>ChromeWire MCP</span><span>Localhost browser bridge for AI agents</span></header>
+
+    <main>
+      <section class="hero">
+        <div>
+          <h1>Real Chrome. Wired to MCP.</h1>
+          <p class="dek">ChromeWire MCP connects the official Codex Chrome Extension to GSD, Codex CLI, Claude Code, Cursor, Windsurf, and other MCP-compatible tools.</p>
+          <div class="buttons">
+            <a class="btn" href="https://github.com/bakhtiersizhaev/chromewire-mcp">GitHub repo</a>
+            <a class="btn secondary" href="https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg">Official extension</a>
+          </div>
+        </div>
+        <aside class="card">
+          <h2>Install</h2>
+          <pre>git clone https://github.com/bakhtiersizhaev/chromewire-mcp.git
+cd chromewire-mcp
+npm install
+npm test
+npm run doctor
+npm start</pre>
+          <p>Endpoint: <code>http://127.0.0.1:8962/mcp</code></p>
+        </aside>
+      </section>
+
+      <section>
+        <h2>How it works</h2>
+        <pre class="diagram">Chrome profile
+  → Official Codex Chrome Extension
+  → local native host / browser pipe
+  → ChromeWire MCP bridge
+  → MCP HTTP endpoint
+  → AI CLI tools</pre>
+      </section>
+
+      <section class="grid">
+        <div class="tile"><strong>Safe by default</strong>Bound to localhost. No cookies, history, passwords, or storage exposed by default.</div>
+        <div class="tile"><strong>Real browser</strong>Opens, clicks, types, scrolls, screenshots, and reads visible text in actual Chrome tabs.</div>
+        <div class="tile"><strong>Agent-ready</strong>Includes install/debug skills, MCP examples, CI, doctor checks, and smoke tests.</div>
+      </section>
+
+      <section>
+        <h2>Requirements</h2>
+        <ul>
+          <li>Node.js 20+</li>
+          <li>Google Chrome</li>
+          <li><a href="https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg">Official Codex Chrome Extension</a></li>
+          <li>Windows for the current working transport; macOS/Linux adapters are planned.</li>
+        </ul>
+        <div class="warn"><strong>Region note:</strong> if the Chrome Web Store listing is unavailable in your region, a USA IP via VPN/proxy may be required to install the official extension. Use only legal, policy-compliant access methods.</div>
+      </section>
+
+      <section>
+        <h2>MCP config</h2>
+        <pre>{
+  "mcpServers": {
+    "chromewire": {
+      "type": "http",
+      "url": "http://127.0.0.1:8962/mcp"
+    }
+  }
+}</pre>
+      </section>
+    </main>
+
+    <footer>Independent project. Not affiliated with OpenAI, Google, Chrome, or the official Codex Chrome Extension team.</footer>
+  </div>
+</body>
+</html>

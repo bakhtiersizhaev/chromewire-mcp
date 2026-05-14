@@ -4,6 +4,23 @@ ChromeWire MCP connects the official Codex Chrome Extension to MCP-compatible AI
 
 > Independent project. Not affiliated with OpenAI, Google, Chrome, or the official Codex Chrome Extension team.
 
+
+## Official Codex Chrome Extension
+
+Install the official Codex Chrome Extension first:
+
+```text
+https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
+```
+
+Direct link: [https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg](https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg)
+
+Availability note: the Chrome Web Store listing may be region-gated for some users. If the official extension page is unavailable in your region, you may need a USA IP via VPN/proxy before installing it. Use only legal, policy-compliant access methods for your location and account.
+
+## Search keywords
+
+ChromeWire MCP is also described as: codex chrome extension mcp, codex chrome mcp bridge, chromewire mcp, real chrome mcp server, chrome automation mcp, ai cli browser control, claude code chrome mcp, codex cli chrome extension, cursor mcp chrome browser, windsurf mcp chrome, gsd pi mcp chrome, browser-use mcp bridge.
+
 ## What it connects
 
 ```mermaid
@@ -42,7 +59,7 @@ Read [`docs/SECURITY.md`](docs/SECURITY.md) before using this with real accounts
 
 - Node.js 20+
 - Google Chrome
-- Official Codex Chrome Extension installed and enabled
+- Official Codex Chrome Extension installed and enabled: https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
 - A working native-host connection from the extension
 - Windows for the current working transport
 
@@ -122,3 +139,4 @@ See [`docs/DESCRIPTIONS.md`](docs/DESCRIPTIONS.md) for English, Russian, and Chi
 - [`docs/README.ru.md`](docs/README.ru.md)
 - [`docs/README.zh.md`](docs/README.zh.md)
 - [`docs/DESCRIPTIONS.md`](docs/DESCRIPTIONS.md)
+- [GitHub Pages site](https://bakhtiersizhaev.github.io/chromewire-mcp/)

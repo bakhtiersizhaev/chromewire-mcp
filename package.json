@@ -19,7 +19,7 @@
   },
   "license": "Apache-2.0",
   "author": "Original author (preserve attribution in NOTICE)",
-  "homepage": "https://github.com/bakhtiersizhaev/chromewire-mcp#readme",
+  "homepage": "https://bakhtiersizhaev.github.io/chromewire-mcp/",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bakhtiersizhaev/chromewire-mcp.git"
@@ -46,12 +46,22 @@
     "ai-cli",
     "browser-automation",
     "chrome",
+    "chrome-extension",
+    "chrome-web-store",
     "chromewire",
+    "claude-code",
     "codex",
     "codex-chrome-extension",
+    "cursor",
+    "github-pages",
+    "gsd",
+    "local-mcp",
     "mcp",
     "mcp-server",
-    "real-chrome"
+    "official-codex-chrome-extension",
+    "pi",
+    "real-chrome",
+    "windsurf"
   ],
   "engines": {
     "node": ">=20"

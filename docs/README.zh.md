@@ -42,3 +42,10 @@ Chrome profiles 会自动检测。用户本地偏好保存在仓库外：
 ## 平台状态
 
 当前 Windows 可用。macOS 和 Linux 已规划，但需要验证官方扩展 native-host 的传输方式。
+
+
+## Official extension link
+
+https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
+
+If the Chrome Web Store page is unavailable in your region, a USA VPN/proxy or USA IP may be required to install the official extension. Use only lawful and policy-compliant access methods.

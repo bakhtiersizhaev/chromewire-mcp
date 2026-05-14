@@ -42,3 +42,10 @@ http://127.0.0.1:8962/mcp
 ## Платформы
 
 Windows поддерживается сейчас. macOS и Linux запланированы, но требуют отдельной проверки native-host транспорта официального расширения.
+
+
+## Official extension link
+
+https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
+
+If the Chrome Web Store page is unavailable in your region, a USA VPN/proxy or USA IP may be required to install the official extension. Use only lawful and policy-compliant access methods.
