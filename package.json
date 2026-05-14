@@ -19,13 +19,13 @@
   },
   "license": "Apache-2.0",
   "author": "Original author (preserve attribution in NOTICE)",
-  "homepage": "https://github.com/OWNER/codex-chrome-mcp-bridge#readme",
+  "homepage": "https://github.com/bakhtiersizhaev/chromewire-mcp#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/OWNER/codex-chrome-mcp-bridge.git"
+    "url": "git+https://github.com/bakhtiersizhaev/chromewire-mcp.git"
   },
   "bugs": {
-    "url": "https://github.com/OWNER/codex-chrome-mcp-bridge/issues"
+    "url": "https://github.com/bakhtiersizhaev/chromewire-mcp/issues"
   },
   "bin": {
     "chromewire-mcp": "./src/server.js",

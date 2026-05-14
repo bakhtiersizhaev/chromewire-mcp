@@ -49,7 +49,7 @@ Read [`docs/SECURITY.md`](docs/SECURITY.md) before using this with real accounts
 ## Manual install
 
 ```bash
-git clone https://github.com/OWNER/chromewire-mcp.git
+git clone https://github.com/bakhtiersizhaev/chromewire-mcp.git
 cd chromewire-mcp
 npm install
 npm test
