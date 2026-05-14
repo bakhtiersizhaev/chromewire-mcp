@@ -108,8 +108,9 @@ export function checkNativeHostManifest({
 
 export function checkMacosCodexRuntime({ execPath = process.execPath, platform = process.platform } = {}) {
   if (platform !== 'darwin') return { ok: true, required: false, execPath };
-  const expectedSuffix = path.join('Codex.app', 'Contents', 'Resources', 'node');
-  const ok = execPath.endsWith(expectedSuffix);
+  const normalizedExecPath = execPath.replaceAll('\\', '/');
+  const expectedSuffix = 'Codex.app/Contents/Resources/node';
+  const ok = normalizedExecPath.endsWith(expectedSuffix);
   return {
     ok,
     required: true,
