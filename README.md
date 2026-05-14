@@ -136,8 +136,7 @@ Read [`docs/SECURITY.md`](docs/SECURITY.md) before using this with real accounts
 - Google Chrome
 - Official Codex Chrome Extension installed and enabled: https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg
 - A working native-host connection from the extension
-- Windows for the current fully working transport
-- macOS for native-host install checks and socket discovery; full bridge operation depends on Codex accepting the local peer connection
+- Windows, macOS, or Linux/Ubuntu with the official Codex native host available
 
 ## 🛠 Manual install
 
@@ -150,6 +149,47 @@ npm test
 npm run check
 npm run doctor
 npm run smoke
+```
+
+On macOS, `npm run smoke` may return a `macos_peer_authorization` diagnostic because npm changes the process ancestry. If your final MCP config uses Codex-launched stdio, run this direct live smoke from a Codex-launched shell:
+
+```bash
+/Applications/Codex.app/Contents/Resources/node scripts/smoke.js
+```
+
+### Stdio MCP mode
+
+Use stdio when your MCP client can launch local commands. This is the recommended Codex CLI mode and the required mode on macOS when Codex peer authorization is active.
+
+```bash
+npm run start:stdio
+```
+
+Codex CLI on macOS:
+
+```toml
+[mcp_servers.chromewire]
+command = "/Applications/Codex.app/Contents/Resources/node"
+args = ["/absolute/path/to/chromewire-mcp/src/stdio.js"]
+startup_timeout_sec = 20.0
+tool_timeout_sec = 180.0
+```
+
+Codex CLI on Windows/Linux:
+
+```toml
+[mcp_servers.chromewire]
+command = "node"
+args = ["/absolute/path/to/chromewire-mcp/src/stdio.js"]
+startup_timeout_sec = 20.0
+tool_timeout_sec = 180.0
+```
+
+### HTTP MCP mode
+
+Use HTTP when your MCP client supports Streamable HTTP MCP and you want to keep the bridge running separately.
+
+```bash
 npm start
 ```
 

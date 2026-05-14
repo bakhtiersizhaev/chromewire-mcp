@@ -84,8 +84,10 @@ cd chromewire-mcp
 npm install
 npm test
 npm run doctor
-npm start</pre>
-          <p>Endpoint: <code>http://127.0.0.1:8962/mcp</code></p>
+npm run check
+npm run smoke</pre>
+          <p>Stdio: <code>node src/stdio.js</code></p>
+          <p>HTTP endpoint: <code>http://127.0.0.1:8962/mcp</code></p>
         </aside>
       </section>
 
@@ -124,7 +126,7 @@ If the extension page is unavailable in my region, tell me that a USA IP via VPN
   → Official Codex Chrome Extension
   → local native host / browser pipe
   → ChromeWire MCP bridge
-  → MCP HTTP endpoint
+  → MCP stdio or HTTP endpoint
   → AI CLI tools</pre>
       </section>
 
@@ -149,13 +151,19 @@ If the extension page is unavailable in my region, tell me that a USA IP via VPN
           <li>Node.js 20+</li>
           <li>Google Chrome</li>
           <li><a href="https://chromewebstore.google.com/detail/hehggadaopoacecdllhhajmbjkdcmajg">Official Codex Chrome Extension</a></li>
-          <li>Windows for the current working transport; macOS/Linux adapters are planned.</li>
+          <li>Windows named pipes, macOS Unix sockets, or Linux/Ubuntu Unix sockets with the official Codex native host.</li>
         </ul>
         <div class="warn"><strong>Region note:</strong> if the Chrome Web Store listing is unavailable in your region, a USA IP via VPN/proxy may be required to install the official extension. Use only legal, policy-compliant access methods.</div>
       </section>
 
       <section>
         <h2>🔌 MCP config</h2>
+        <pre>[mcp_servers.chromewire]
+command = "node"
+args = ["/absolute/path/to/chromewire-mcp/src/stdio.js"]
+startup_timeout_sec = 20.0
+tool_timeout_sec = 180.0</pre>
+        <p>For Codex CLI on macOS, use <code>/Applications/Codex.app/Contents/Resources/node</code> as the command so Codex launches the MCP subprocess.</p>
         <pre>{
   "mcpServers": {
     "chromewire": {

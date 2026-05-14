@@ -2,6 +2,7 @@
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import { StreamableHTTPServerTransport } from '@modelcontextprotocol/sdk/server/streamableHttp.js';
 import { createMcpExpressApp } from '@modelcontextprotocol/sdk/server/express.js';
+import { pathToFileURL } from 'node:url';
 import { z } from 'zod/v4';
 import { DEFAULT_HOST, DEFAULT_PORT, getDefaultPreferencePath } from './config.js';
 import { captureScreenshot, clickSelector, dispatchKey, endPersistentSession, evaluateExpression, executeCdpCommand, getInfo, getPreferredProfile, health, listPersistentSessions, listPipes, listProfiles, listUserTabs, moveMouse, openUrl, persistentClickSelector, persistentClickXY, persistentEvaluate, persistentKey, persistentMoveMouse, persistentNavigate, persistentNetworkSummary, persistentScreenshot, persistentScroll, persistentTypeSelector, persistentTypeText, persistentVisibleText, ping, readTitle, scrollBy, setPreferredProfile, startPersistentSession, typeSelector, visibleText } from './codexChromePipe.js';
@@ -14,7 +15,7 @@ function json(value) {
   return { content: [{ type: 'text', text: JSON.stringify(normalized, null, 2) }] };
 }
 
-function makeServer() {
+export function makeServer() {
   const server = new McpServer({ name: 'codex-chrome', version: '0.1.0' }, { capabilities: { logging: {} } });
 
 
@@ -314,7 +315,13 @@ app.post('/mcp', async (req, res) => {
 app.get('/mcp', (_req, res) => res.writeHead(405).end(JSON.stringify({ jsonrpc: '2.0', error: { code: -32000, message: 'Method not allowed.' }, id: null })));
 app.delete('/mcp', (_req, res) => res.writeHead(405).end(JSON.stringify({ jsonrpc: '2.0', error: { code: -32000, message: 'Method not allowed.' }, id: null })));
 
-app.listen(PORT, HOST, (error) => {
-  if (error) { console.error('Failed to start codex-chrome MCP bridge:', error); process.exit(1); }
-  console.error(`codex-chrome MCP bridge listening on http://${HOST}:${PORT}/mcp`);
-});
+export function startHttpServer() {
+  return app.listen(PORT, HOST, (error) => {
+    if (error) { console.error('Failed to start codex-chrome MCP bridge:', error); process.exit(1); }
+    console.error(`codex-chrome MCP bridge listening on http://${HOST}:${PORT}/mcp`);
+  });
+}
+
+if (process.argv[1] && import.meta.url === pathToFileURL(process.argv[1]).href) {
+  startHttpServer();
+}

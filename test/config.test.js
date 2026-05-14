@@ -16,8 +16,11 @@ import {
   buildNativeHostManifest,
   checkMacosCodexRuntime,
   checkNativeHostManifest,
+  getCodexAppNativeHostCandidates,
   getCodexAppNativeHostPath,
   getDefaultNativeHostManifestPath,
+  getWindowsNativeHostRegistryKey,
+  readWindowsNativeHostRegistry,
 } from '../src/nativeHostManifest.js';
 
 test('stores user-specific preferences outside the repository by default', () => {
@@ -96,19 +99,47 @@ test('checks Codex Chrome native host manifest shape', async () => {
   await fsp.writeFile(tempManifestPath, JSON.stringify(buildNativeHostManifest({ hostPath: tempHostPath })), 'utf8');
 
   try {
-    assert.equal(checkNativeHostManifest({ manifestPath: tempManifestPath }).ok, true);
-    assert.equal(checkNativeHostManifest({ manifestPath: path.join(tempDir, 'missing.json') }).ok, false);
+    assert.equal(checkNativeHostManifest({ platform: 'darwin', manifestPath: tempManifestPath }).ok, true);
+    assert.equal(checkNativeHostManifest({ platform: 'darwin', manifestPath: path.join(tempDir, 'missing.json') }).ok, false);
   } finally {
     await fsp.rm(tempDir, { recursive: true, force: true });
   }
 });
 
 test('resolves bundled Codex native host path for supported platforms', () => {
+  const homeDir = path.join(path.sep, 'Users', 'alice');
+
   assert.equal(
     getCodexAppNativeHostPath({ codexAppPath: '/Applications/Codex.app', platform: 'darwin', arch: 'arm64' }),
     path.join('/Applications/Codex.app', 'Contents', 'Resources', 'plugins', 'openai-bundled', 'plugins', 'chrome', 'extension-host', 'macos', 'arm64', 'extension-host'),
   );
   assert.equal(getCodexAppNativeHostPath({ platform: 'darwin', arch: 'ppc' }), null);
+  assert.deepEqual(
+    getCodexAppNativeHostCandidates({
+      platform: 'win32',
+      arch: 'x64',
+      homeDir,
+      env: { LOCALAPPDATA: path.join(homeDir, 'AppData', 'Local') },
+    }),
+    [
+      path.join(homeDir, 'AppData', 'Local', 'Programs', 'Codex', 'resources', 'plugins', 'openai-bundled', 'plugins', 'chrome', 'extension-host', 'windows', 'x64', 'extension-host.exe'),
+    ],
+  );
+  assert.deepEqual(
+    getCodexAppNativeHostCandidates({ platform: 'linux', arch: 'x64', env: { APPDIR: '/tmp/Codex.AppDir' } })[0],
+    path.join('/tmp/Codex.AppDir', 'resources', 'plugins', 'openai-bundled', 'plugins', 'chrome', 'extension-host', 'linux', 'x64', 'extension-host'),
+  );
+});
+
+test('documents Windows native messaging registry integration', () => {
+  assert.equal(
+    getWindowsNativeHostRegistryKey(),
+    'HKCU\\Software\\Google\\Chrome\\NativeMessagingHosts\\com.openai.codexextension',
+  );
+  assert.deepEqual(
+    readWindowsNativeHostRegistry({ platform: 'linux' }),
+    { supported: false, ok: true, registryKey: null, manifestPath: null },
+  );
 });
 
 test('detects whether macOS is using Codex bundled Node.js', () => {
